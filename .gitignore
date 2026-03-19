@@ -1,3 +1,6 @@
+# macOS
+**.DS_Store
+
 # Rust artifacts
 target/
 
@@ -17,6 +20,8 @@ _obj/
 dist/
 *.egg-info
 *.whl
+*.pyc
+__pycache__/
 
 # C artifacts
 *.a
