@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-ifc"
 description = "tree-sitter parser for IFC STEP files."
-version = "0.1.0-alpha.1"
+version = "0.1.0"
 authors = ["Nepomuk Wolf"]
 license = "MIT"
 readme = "README.md"
