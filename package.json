@@ -51,6 +51,7 @@
     "install": "node-gyp-build",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
+    "debug:errors": "./scripts/debug-error-nodes.sh",
     "test": "node --test bindings/node/*_test.js"
   }
 }

@@ -191,6 +191,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "typed_parameter"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string"
         },
         {
@@ -216,6 +220,19 @@
         {
           "type": "SYMBOL",
           "name": "omitted_value"
+        }
+      ]
+    },
+    "typed_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "entity_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameter_list"
         }
       ]
     },
@@ -250,7 +267,7 @@
     },
     "enumeration": {
       "type": "PATTERN",
-      "value": "\\.[A-Z_]+\\."
+      "value": "\\.[A-Z0-9_]+\\."
     },
     "null_value": {
       "type": "STRING",
@@ -291,7 +308,7 @@
     },
     "number": {
       "type": "PATTERN",
-      "value": "-?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?"
+      "value": "-?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[Ee][+-]?[0-9]+)?"
     },
     "comment": {
       "type": "TOKEN",

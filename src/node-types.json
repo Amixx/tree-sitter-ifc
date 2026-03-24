@@ -126,6 +126,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "typed_parameter",
+          "named": true
         }
       ]
     }
@@ -216,6 +220,25 @@
     "type": "string",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "typed_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "entity_name",
+          "named": true
+        },
+        {
+          "type": "parameter_list",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "'",

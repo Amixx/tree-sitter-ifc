@@ -94,6 +94,7 @@ module.exports = grammar({
 
     parameter: $ =>
       choice(
+        $.typed_parameter,
         $.string,
         $.number,
         $.reference,
@@ -101,6 +102,12 @@ module.exports = grammar({
         $.list,
         $.null_value,
         $.omitted_value
+      ),
+
+    typed_parameter: $ =>
+      seq(
+        $.entity_name,
+        $.parameter_list
       ),
 
     list: $ =>
@@ -112,7 +119,7 @@ module.exports = grammar({
 
     reference: $ => /#[0-9]+/,
 
-    enumeration: $ => /\.[A-Z_]+\./,
+    enumeration: $ => /\.[A-Z0-9_]+\./,
 
     null_value: $ => '$',
 
@@ -128,7 +135,7 @@ module.exports = grammar({
         "'"
       ),
 
-    number: $ => /-?[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?/,
+    number: $ => /-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[Ee][+-]?[0-9]+)?/,
 
     // ---------------------
     // Comments
