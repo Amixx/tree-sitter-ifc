@@ -1,6 +1,11 @@
 # tree-sitter-ifc
 
-Tree-sitter grammar for IFC STEP files (`.ifc`).
+[Tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for IFC STEP files (`.ifc`).
+
+Tree-sitter is an incremental parser that builds syntax trees efficiently, including during live edits.
+It is commonly used for syntax highlighting, code navigation, structural queries, and language-server features.
+IFC (Industry Foundation Classes) is an open, vendor-neutral BIM data standard maintained by buildingSMART.
+Official references: [buildingSMART IFC standards](https://technical.buildingsmart.org/standards/ifc/) and [IFC 4.3 documentation](https://ifc43-docs.standards.buildingsmart.org/).
 
 ## Status
 
