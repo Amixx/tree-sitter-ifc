@@ -101,6 +101,7 @@ module.exports = grammar({
         $.enumeration,
         $.list,
         $.compact_number_list,
+        $.compact_reference_list,
         $.null_value,
         $.omitted_value
       ),
@@ -120,6 +121,10 @@ module.exports = grammar({
 
     compact_number_list: $ => token(
       /\([ \t\r\n]*-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[Ee][+-]?[0-9]+)?(?:[ \t\r\n]*,[ \t\r\n]*-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[Ee][+-]?[0-9]+)?)*[ \t\r\n]*\)/
+    ),
+
+    compact_reference_list: $ => token(
+      /\([ \t\r\n]*#[0-9]+(?:[ \t\r\n]*,[ \t\r\n]*#[0-9]+)*[ \t\r\n]*\)/
     ),
 
     reference: $ => /#[0-9]+/,
