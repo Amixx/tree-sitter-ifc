@@ -100,6 +100,10 @@
       "required": true,
       "types": [
         {
+          "type": "compact_number_list",
+          "named": true
+        },
+        {
           "type": "enumeration",
           "named": true
         },
@@ -284,6 +288,10 @@
     "type": "comment",
     "named": true,
     "extra": true
+  },
+  {
+    "type": "compact_number_list",
+    "named": true
   },
   {
     "type": "entity_name",
