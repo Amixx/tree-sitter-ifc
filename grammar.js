@@ -13,7 +13,7 @@ const STRING = "'(?:[^'\\/]|''|\\/+(?:[^'\\/*]|''))*\\/*'";
 const ATOM = `(?:${STRING}|${NUMBER}|#[0-9]+|\\.[A-Z0-9_]+\\.|\\$|\\*)`;
 const ITEM = `(?:${ATOM}|[A-Z][A-Z0-9_]*${WS}\\(${WS}${ATOM}${WS}\\))`;
 const sequence = item => `\\(${WS}(?:${item}(?:${WS},${WS}${item})*)?${WS}\\)`;
-const PARAMETER = `(?:${ITEM}|${sequence(ITEM)})`;
+const PARAMETER = `(?:${ITEM}|${sequence(`(?:${ITEM}|${sequence(ITEM)})`)})`;
 
 module.exports = grammar({
   name: 'ifc',
