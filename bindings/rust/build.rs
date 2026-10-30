@@ -15,6 +15,8 @@ fn main() {
         c_config.include(&wasm_headers);
     }
 
+    let mut compact_config = c_config.clone();
+
     let parser_path = src_dir.join("parser.c");
     c_config.file(&parser_path);
     println!("cargo:rerun-if-changed={}", parser_path.to_str().unwrap());
@@ -29,8 +31,7 @@ fn main() {
 
     let compact_dir = std::path::Path::new("compact/src");
     let compact_path = compact_dir.join("parser.c");
-    cc::Build::new()
-        .std("c11")
+    compact_config
         .include(compact_dir)
         .file(&compact_path)
         .compile("tree-sitter-ifc-compact");
