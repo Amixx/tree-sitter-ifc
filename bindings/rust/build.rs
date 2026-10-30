@@ -27,6 +27,15 @@ fn main() {
 
     c_config.compile("tree-sitter-ifc");
 
+    let compact_dir = std::path::Path::new("compact/src");
+    let compact_path = compact_dir.join("parser.c");
+    cc::Build::new()
+        .std("c11")
+        .include(compact_dir)
+        .file(&compact_path)
+        .compile("tree-sitter-ifc-compact");
+    println!("cargo:rerun-if-changed={}", compact_path.to_str().unwrap());
+
     println!("cargo:rustc-check-cfg=cfg(with_highlights_query)");
     if !"queries/highlights.scm".is_empty() && std::path::Path::new("queries/highlights.scm").exists() {
         println!("cargo:rustc-cfg=with_highlights_query");
