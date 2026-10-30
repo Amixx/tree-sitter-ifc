@@ -1,0 +1,19 @@
+name: Generated parser
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  up-to-date:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --ignore-scripts && npm rebuild tree-sitter-cli
+      - run: npx tree-sitter generate
+      - name: Fail if the committed parser differs from grammar.js
+        run: git diff --exit-code
