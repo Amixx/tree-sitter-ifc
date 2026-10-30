@@ -96,6 +96,7 @@ module.exports = grammar({
       choice(
         $.typed_parameter,
         $.string,
+        alias($._quoted_string, $.string),
         $.number,
         $.reference,
         $.enumeration,
@@ -135,7 +136,9 @@ module.exports = grammar({
 
     omitted_value: $ => '*',
 
-    string: $ =>
+    string: $ => token(/'(?:[^'\/]|''|\/+(?:[^'\/*]|''))*\/*'/),
+
+    _quoted_string: $ =>
       seq(
         "'",
         repeat(choice(

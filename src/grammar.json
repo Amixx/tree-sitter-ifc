@@ -198,6 +198,15 @@
           "name": "string"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_quoted_string"
+          },
+          "named": true,
+          "value": "string"
+        },
+        {
           "type": "SYMBOL",
           "name": "number"
         },
@@ -300,6 +309,13 @@
       "value": "*"
     },
     "string": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "'(?:[^'\\/]|''|\\/+(?:[^'\\/*]|''))*\\/*'"
+      }
+    },
+    "_quoted_string": {
       "type": "SEQ",
       "members": [
         {
