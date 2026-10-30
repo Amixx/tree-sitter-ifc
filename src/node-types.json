@@ -23,6 +23,10 @@
       "required": true,
       "types": [
         {
+          "type": "compact_parameter_list",
+          "named": true
+        },
+        {
           "type": "entity_name",
           "named": true
         },
@@ -295,6 +299,10 @@
   },
   {
     "type": "compact_number_list",
+    "named": true
+  },
+  {
+    "type": "compact_parameter_list",
     "named": true
   },
   {

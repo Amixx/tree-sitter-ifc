@@ -7,6 +7,14 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+const WS = '[ \\t\\r\\n]*';
+const NUMBER = '-?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[Ee][+-]?[0-9]+)?';
+const STRING = "'(?:[^'\\/]|''|\\/+(?:[^'\\/*]|''))*\\/*'";
+const ATOM = `(?:${STRING}|${NUMBER}|#[0-9]+|\\.[A-Z0-9_]+\\.|\\$|\\*)`;
+const ITEM = `(?:${ATOM}|[A-Z][A-Z0-9_]*${WS}\\(${WS}${ATOM}${WS}\\))`;
+const sequence = item => `\\(${WS}(?:${item}(?:${WS},${WS}${item})*)?${WS}\\)`;
+const PARAMETER = `(?:${ITEM}|${sequence(ITEM)})`;
+
 module.exports = grammar({
   name: 'ifc',
 
@@ -67,9 +75,11 @@ module.exports = grammar({
         $.instance_id,
         '=',
         $.entity_name,
-        $.parameter_list,
+        choice($.parameter_list, $.compact_parameter_list),
         ';'
       ),
+
+    compact_parameter_list: $ => token(new RegExp(sequence(PARAMETER))),
 
     instance_id: $ => /#[0-9]+/,
 
@@ -136,7 +146,7 @@ module.exports = grammar({
 
     omitted_value: $ => '*',
 
-    string: $ => token(/'(?:[^'\/]|''|\/+(?:[^'\/*]|''))*\/*'/),
+    string: $ => token(new RegExp(STRING)),
 
     _quoted_string: $ =>
       seq(
