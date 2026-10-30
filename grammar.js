@@ -12,8 +12,8 @@ const structured = require('./structured/grammar');
 const WS = '[ \\t\\r\\n]*';
 const NUMBER = '-?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[Ee][+-]?[0-9]+)?';
 const STRING = "'(?:[^'\\/]|''|\\/+(?:[^'\\/*]|''))*\\/*'";
-const ATOM = `(?:${STRING}|${NUMBER}|#[0-9]+|\\.[A-Za-z0-9_]+\\.|\\$|\\*)`;
-const ITEM = `(?:${ATOM}|[A-Za-z_][A-Za-z0-9_]*${WS}\\(${WS}${ATOM}${WS}\\))`;
+const ATOM = `(?:${STRING}|${NUMBER}|#[0-9]+|\\.[A-Z0-9_]+\\.|\\$|\\*)`;
+const ITEM = `(?:${ATOM}|[A-Z][A-Z0-9_]*${WS}\\(${WS}${ATOM}${WS}\\))`;
 const sequence = item => `\\(${WS}(?:${item}(?:${WS},${WS}${item})*)?${WS}\\)`;
 const PARAMETER = `(?:${ITEM}|${sequence(`(?:${ITEM}|${sequence(ITEM)})`)})`;
 
@@ -41,7 +41,7 @@ module.exports = grammar(structured, {
 
     compact_parameter_list: $ => token(new RegExp(sequence(PARAMETER))),
 
-    compact_entity_instance: $ => token(new RegExp(`#[0-9]+${WS}=${WS}[A-Za-z_][A-Za-z0-9_]*${WS}${sequence(PARAMETER)}${WS};`)),
+    compact_entity_instance: $ => token(new RegExp(`#[0-9]+${WS}=${WS}[A-Z][A-Z0-9_]*${WS}${sequence(PARAMETER)}${WS};`)),
 
     parameter: ($, original) => choice(original, alias($._quoted_string, $.string)),
 

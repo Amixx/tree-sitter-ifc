@@ -73,7 +73,7 @@ module.exports = grammar({
 
     instance_id: $ => /#[0-9]+/,
 
-    entity_name: $ => /[A-Za-z_][A-Za-z0-9_]*/,
+    entity_name: $ => /[A-Z][A-Z0-9_]*/,
 
     // ---------------------
     // Parameters
@@ -129,7 +129,7 @@ module.exports = grammar({
 
     reference: $ => /#[0-9]+/,
 
-    enumeration: $ => /\.[A-Za-z0-9_]+\./,
+    enumeration: $ => /\.[A-Z0-9_]+\./,
 
     null_value: $ => '$',
 
