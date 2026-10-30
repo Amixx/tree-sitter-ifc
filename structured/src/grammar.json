@@ -235,14 +235,23 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "entity_name"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_typed_name"
+          },
+          "named": true,
+          "value": "entity_name"
         },
         {
           "type": "SYMBOL",
           "name": "parameter_list"
         }
       ]
+    },
+    "_typed_name": {
+      "type": "PATTERN",
+      "value": "[A-Za-z_][A-Za-z0-9_]*"
     },
     "list": {
       "type": "SEQ",

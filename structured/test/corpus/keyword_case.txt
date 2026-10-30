@@ -26,3 +26,59 @@ Uppercase typed value
                     (number))))))
           (parameter
             (null_value)))))))
+
+================================================================================
+Lowercase and mixed-case typed values
+================================================================================
+
+DATA;
+#1=IFCX(ifclabel('a'),ifcCountMeasure(3),_typed(.T.));
+ENDSEC;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (data_section
+      (entity_instance
+        (instance_id)
+        (entity_name)
+        (parameter_list
+          (parameter_sequence
+            (parameter
+              (typed_parameter
+                (entity_name)
+                (parameter_list
+                  (parameter_sequence
+                    (parameter
+                      (string))))))
+            (parameter
+              (typed_parameter
+                (entity_name)
+                (parameter_list
+                  (parameter_sequence
+                    (parameter
+                      (number))))))
+            (parameter
+              (typed_parameter
+                (entity_name)
+                (parameter_list
+                  (parameter_sequence
+                    (parameter
+                      (enumeration))))))))))))
+
+================================================================================
+Lowercase entity names remain rejected
+================================================================================
+
+DATA;#1=x(1.);ENDSEC;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (data_section
+      (ERROR
+        (instance_id)
+        (entity_name)
+        (compact_number_list)))))

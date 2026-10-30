@@ -108,9 +108,11 @@ module.exports = grammar({
 
     typed_parameter: $ =>
       seq(
-        $.entity_name,
+        alias($._typed_name, $.entity_name),
         $.parameter_list
       ),
+
+    _typed_name: $ => /[A-Za-z_][A-Za-z0-9_]*/,
 
     list: $ =>
       seq(
