@@ -12,6 +12,15 @@
       "injection-regex": "^ifc$",
       "class-name": "TreeSitterIfc",
       "highlights": "queries/highlights.scm"
+    },
+    {
+      "name": "ifc_structured",
+      "camelcase": "IfcStructured",
+      "title": "Ifc structured",
+      "scope": "source.ifc.structured",
+      "path": "structured",
+      "file-types": [],
+      "class-name": "TreeSitterIfcStructured"
     }
   ],
   "metadata": {

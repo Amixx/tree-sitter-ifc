@@ -28,9 +28,9 @@ extern "C" {
 /// The tree-sitter [`LanguageFn`] for this grammar.
 pub const LANGUAGE: LanguageFn = unsafe { LanguageFn::from_raw(tree_sitter_ifc) };
 
-/// [`LANGUAGE`] without its single-token shortcuts for complete strings and plain parameter
-/// lists. Both accept the same documents, but the shortcuts change error recovery, so a document
-/// whose [`LANGUAGE`] tree has errors is reparsed with this one.
+/// [`LANGUAGE`] without the whole-entity, parameter-list and string tokens. Both accept the same
+/// documents, but those tokens change error recovery, so a document whose [`LANGUAGE`] tree has
+/// errors is reparsed with this one. Only the Rust binding builds this grammar.
 pub const LANGUAGE_STRUCTURED: LanguageFn =
     unsafe { LanguageFn::from_raw(tree_sitter_ifc_structured) };
 
