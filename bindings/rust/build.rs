@@ -27,6 +27,15 @@ fn main() {
 
     c_config.compile("tree-sitter-ifc");
 
+    let structured_dir = std::path::Path::new("structured/src");
+    let structured_path = structured_dir.join("parser.c");
+    cc::Build::new()
+        .std("c11")
+        .include(structured_dir)
+        .file(&structured_path)
+        .compile("tree-sitter-ifc-structured");
+    println!("cargo:rerun-if-changed={}", structured_path.to_str().unwrap());
+
     println!("cargo:rustc-check-cfg=cfg(with_highlights_query)");
     if !"queries/highlights.scm".is_empty() && std::path::Path::new("queries/highlights.scm").exists() {
         println!("cargo:rustc-cfg=with_highlights_query");

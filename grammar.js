@@ -7,6 +7,8 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+const structured = require('./structured/grammar');
+
 const WS = '[ \\t\\r\\n]*';
 const NUMBER = '-?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[Ee][+-]?[0-9]+)?';
 const STRING = "'(?:[^'\\/]|''|\\/+(?:[^'\\/*]|''))*\\/*'";
@@ -15,61 +17,12 @@ const ITEM = `(?:${ATOM}|[A-Z][A-Z0-9_]*${WS}\\(${WS}${ATOM}${WS}\\))`;
 const sequence = item => `\\(${WS}(?:${item}(?:${WS},${WS}${item})*)?${WS}\\)`;
 const PARAMETER = `(?:${ITEM}|${sequence(`(?:${ITEM}|${sequence(ITEM)})`)})`;
 
-module.exports = grammar({
+// Valid documents parse with these single-token shortcuts. A document with any syntax error is
+// reparsed with `structured`, whose error recovery is unaffected by them.
+module.exports = grammar(structured, {
   name: 'ifc',
 
-  extras: $ => [
-    /\s/,
-    $.comment
-  ],
-
   rules: {
-
-    source_file: $ =>
-      repeat($.statement),
-
-    // ---------------------
-    // Top-level statements
-    // ---------------------
-
-    statement: $ =>
-      choice(
-        $.header_section,
-        $.data_section,
-        $.entity_instance,
-        $.iso_start,
-        $.iso_end,
-        ';'
-      ),
-
-    iso_start: $ => 'ISO-10303-21;',
-    iso_end: $ => 'END-ISO-10303-21;',
-
-    header_section: $ =>
-      seq(
-        'HEADER;',
-        repeat($.header_entry),
-        'ENDSEC;'
-      ),
-
-    data_section: $ =>
-      seq(
-        'DATA;',
-        repeat($.entity_instance),
-        'ENDSEC;'
-      ),
-
-    header_entry: $ =>
-      seq(
-        $.entity_name,
-        $.parameter_list,
-        ';'
-      ),
-
-    // ---------------------
-    // IFC entity instances
-    // ---------------------
-
     entity_instance: $ =>
       seq(
         $.instance_id,
@@ -81,94 +34,10 @@ module.exports = grammar({
 
     compact_parameter_list: $ => token(new RegExp(sequence(PARAMETER))),
 
-    instance_id: $ => /#[0-9]+/,
-
-    entity_name: $ => /[A-Z][A-Z0-9_]*/,
-
-    // ---------------------
-    // Parameters
-    // ---------------------
-
-    parameter_list: $ =>
-      seq(
-        '(',
-        optional($.parameter_sequence),
-        ')'
-      ),
-
-    parameter_sequence: $ =>
-      seq(
-        $.parameter,
-        repeat(seq(',', $.parameter))
-      ),
-
-    parameter: $ =>
-      choice(
-        $.typed_parameter,
-        $.string,
-        alias($._quoted_string, $.string),
-        $.number,
-        $.reference,
-        $.enumeration,
-        $.list,
-        $.compact_number_list,
-        $.compact_reference_list,
-        $.null_value,
-        $.omitted_value
-      ),
-
-    typed_parameter: $ =>
-      seq(
-        $.entity_name,
-        $.parameter_list
-      ),
-
-    list: $ =>
-      seq(
-        '(',
-        optional($.parameter_sequence),
-        ')'
-      ),
-
-    compact_number_list: $ => token(
-      /\([ \t\r\n]*-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[Ee][+-]?[0-9]+)?(?:[ \t\r\n]*,[ \t\r\n]*-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[Ee][+-]?[0-9]+)?)*[ \t\r\n]*\)/
-    ),
-
-    compact_reference_list: $ => token(
-      /\([ \t\r\n]*#[0-9]+(?:[ \t\r\n]*,[ \t\r\n]*#[0-9]+)*[ \t\r\n]*\)/
-    ),
-
-    reference: $ => /#[0-9]+/,
-
-    enumeration: $ => /\.[A-Z0-9_]+\./,
-
-    null_value: $ => '$',
-
-    omitted_value: $ => '*',
+    parameter: ($, original) => choice(original, alias($._quoted_string, $.string)),
 
     string: $ => token(new RegExp(STRING)),
 
-    _quoted_string: $ =>
-      seq(
-        "'",
-        repeat(choice(
-          /[^']/,
-          "''"   // escaped quote
-        )),
-        "'"
-      ),
-
-    number: $ => /-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[Ee][+-]?[0-9]+)?/,
-
-    // ---------------------
-    // Comments
-    // ---------------------
-
-    comment: $ =>
-      token(seq(
-        '/*',
-        /[^*]*\*+([^/*][^*]*\*+)*/,
-        '/'
-      ))
+    _quoted_string: ($, _) => structured.grammar.rules.string,
   }
 });

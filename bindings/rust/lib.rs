@@ -22,10 +22,17 @@ use tree_sitter_language::LanguageFn;
 
 extern "C" {
     fn tree_sitter_ifc() -> *const ();
+    fn tree_sitter_ifc_structured() -> *const ();
 }
 
 /// The tree-sitter [`LanguageFn`] for this grammar.
 pub const LANGUAGE: LanguageFn = unsafe { LanguageFn::from_raw(tree_sitter_ifc) };
+
+/// [`LANGUAGE`] without its single-token shortcuts for complete strings and plain parameter
+/// lists. Both accept the same documents, but the shortcuts change error recovery, so a document
+/// whose [`LANGUAGE`] tree has errors is reparsed with this one.
+pub const LANGUAGE_STRUCTURED: LanguageFn =
+    unsafe { LanguageFn::from_raw(tree_sitter_ifc_structured) };
 
 /// The content of the [`node-types.json`] file for this grammar.
 ///
