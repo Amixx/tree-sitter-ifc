@@ -23,6 +23,13 @@ module.exports = grammar(structured, {
   name: 'ifc',
 
   rules: {
+    data_section: $ =>
+      seq(
+        'DATA;',
+        repeat(choice($.entity_instance, alias($.compact_entity_instance, $.entity_instance))),
+        'ENDSEC;'
+      ),
+
     entity_instance: $ =>
       seq(
         $.instance_id,
@@ -33,6 +40,8 @@ module.exports = grammar(structured, {
       ),
 
     compact_parameter_list: $ => token(new RegExp(sequence(PARAMETER))),
+
+    compact_entity_instance: $ => token(new RegExp(`#[0-9]+${WS}=${WS}[A-Z][A-Z0-9_]*${WS}${sequence(PARAMETER)}${WS};`)),
 
     parameter: ($, original) => choice(original, alias($._quoted_string, $.string)),
 
