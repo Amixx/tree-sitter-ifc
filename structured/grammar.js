@@ -112,7 +112,7 @@ module.exports = grammar({
         $.parameter_list
       ),
 
-    _typed_name: $ => /[A-Za-z_][A-Za-z0-9_]*/,
+    _typed_name: $ => /[A-Za-z][A-Za-z0-9_]*/,
 
     list: $ =>
       seq(

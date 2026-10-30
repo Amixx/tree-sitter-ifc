@@ -289,7 +289,7 @@
     },
     "_typed_name": {
       "type": "PATTERN",
-      "value": "[A-Za-z_][A-Za-z0-9_]*"
+      "value": "[A-Za-z][A-Za-z0-9_]*"
     },
     "list": {
       "type": "SEQ",
